@@ -1,4 +1,6 @@
-.PHONY: all
+.PHONY: all install
+
+PREFIX ?= /usr/local
 
 VERSION = v0
 
@@ -13,4 +15,7 @@ svf-$(VERSION).h: svf.h.in
 test-$(VERSION).cc: test.cc.in
 	cat test.cc.in | sed -e 's/VERSION/$(VERSION)/g' > test-$(VERSION).cc
 
+install:
+	install -d $(PREFIX)/include/
+	cp -f svf-$(VERSION).h $(PREFIX)/include/
 
