@@ -15,7 +15,7 @@ svf-$(VERSION).h: svf.h.in
 test-$(VERSION).cc: test.cc.in
 	cat test.cc.in | sed -e 's/VERSION/$(VERSION)/g' > test-$(VERSION).cc
 
-install:
+install: svf-$(VERSION).h
 	install -d $(PREFIX)/include/
 	cp -f svf-$(VERSION).h $(PREFIX)/include/
 
