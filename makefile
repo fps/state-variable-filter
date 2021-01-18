@@ -2,7 +2,7 @@
 
 PREFIX ?= /usr/local
 
-VERSION = v2
+VERSION = v3
 
 all: test-svf-$(VERSION)
 
