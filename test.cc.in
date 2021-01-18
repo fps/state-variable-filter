@@ -1,0 +1,12 @@
+#include "svf-VERSION.h"
+
+int main()
+{
+  svf_VERSION::lowpass lp;
+  svf_VERSION::bandpass bp;
+  svf_VERSION::highpass hp;
+  svf_VERSION::lowbandhighpass lbhp;
+  
+  return 0;
+}
+
