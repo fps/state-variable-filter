@@ -2,10 +2,10 @@
 
 VERSION = v0
 
-all: test-$(VERSION)
+all: test-svf-$(VERSION)
 
-test-$(VERSION): test-$(VERSION).cc svf-$(VERSION).h
-	g++ -Wall -Wextra -g -o test-$(VERSION) test-$(VERSION).cc
+test-svf-$(VERSION): test-$(VERSION).cc svf-$(VERSION).h
+	g++ -Wall -Wextra -g -o test-svf-$(VERSION) test-$(VERSION).cc
 
 svf-$(VERSION).h: svf.h.in
 	cat svf.h.in | sed -e 's/VERSION/$(VERSION)/g' > svf-$(VERSION).h
