@@ -1,34 +1,34 @@
 
 module StateVariableFilter
 
-struct CommonProcessingResult
-  w
-  a
-  b
-  c1
-  c2
+struct CommonProcessingResult{T<:AbstractFloat}
+  w::T
+  a::T
+  b::T
+  c1::T
+  c2::T
 end
 
 function process_common(freq, q)
   w = 2.0 * tan(pi * freq)
   a = w / q
   b = w*w
-  c1 = (a + b)/(1 + 0.5*a + 0.25 * b)
+  c1 = (a + b) / (1 + 0.5 * a + 0.25 * b)
   c2 = b / (a + b)
 
   CommonProcessingResult(w, a, b, c1, c2)
 end
 
-mutable struct State
-  z1
-  z2
+mutable struct State{T<:AbstractFloat}
+  z1::T
+  z2::T
 end
 
-State() = State(0,0)
+State() = State(0.0,0.0)
 
-struct D1D0
-  d1
-  d0
+struct D1D0{T<:AbstractFloat}
+  d1::T
+  d0::T
 end
 
 function calculate_d0_high(common)
@@ -45,7 +45,7 @@ function calculate_d0_low(common)
   common.c1 * common.c2 * 0.25
 end
 
-function calculate_lowbandhighpass(s, in, highgain, bandgain, lowgain, freq, q)
+function process(s::State, in, highgain, bandgain, lowgain, freq, q)
     common = process_common(freq, q)
 
     d0_high = calculate_d0_high(common)
@@ -65,7 +65,7 @@ function calculate_lowbandhighpass(s, in, highgain, bandgain, lowgain, freq, q)
 end
 
 
-function calculate_lowbandhighpass(s, input_buffer, output_buffer, sample_count, highgain, bandgain, lowgain, freq, q)
+function process!(s::State, input_buffer, output_buffer, sample_count, highgain, bandgain, lowgain, freq, q)
     common = process_common(freq, q)
 
     d0_high = calculate_d0_high(common)
