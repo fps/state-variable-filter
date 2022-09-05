@@ -45,6 +45,26 @@ function calculate_d0_low(common)
   common.c1 * common.c2 * 0.25
 end
 
+function calculate_lowbandhighpass(s, in, highgain, bandgain, lowgain, freq, q)
+    common = process_common(freq, q)
+
+    d0_high = calculate_d0_high(common)
+    d1d0_band = calculate_d1d0_band(common)
+    d0_low = calculate_d0_low(common)
+
+    out = 0
+
+    x = in - s.z1 - s.z2 + 1e-20
+    out += highgain * d0_high * x
+    out += bandgain * (d1d0_band.d0 * x + d1d0_band.d1 * s.z1)
+    s.z2 += common.c2 * s.z1
+    out += lowgain * (d0_low * x + s.z2)
+    s.z1 += common.c1 * x
+
+    out
+end
+
+
 function calculate_lowbandhighpass(s, input_buffer, output_buffer, sample_count, highgain, bandgain, lowgain, freq, q)
     common = process_common(freq, q)
 
